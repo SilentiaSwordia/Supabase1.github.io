@@ -66,9 +66,20 @@
             <div class="card-body">
               <h2 class="h6 mb-3">Send inn</h2>
               <div id="captcha" class="mb-3">
-                <label class="form-label" for="captcha-answer" id="captcha-label">Hva er 5 + 3?</label>
+                <label
+                  class="form-label"
+                  for="captcha-answer"
+                  id="captcha-label"
+                  >Hva er 5 + 3?</label
+                >
                 <input id="captcha-answer" class="form-control" type="number" />
-                <button id="captcha-check" class="btn btn-secondary mt-2" type="button">Sjekk svar</button>
+                <button
+                  id="captcha-check"
+                  class="btn btn-secondary mt-2"
+                  type="button"
+                >
+                  Sjekk svar
+                </button>
               </div>
               <form id="form" class="needs-validation" novalidate>
                 <div class="mb-3">
@@ -155,10 +166,8 @@
       let captchaNum1, captchaNum2, captchaAnswer;
 
       function generateCaptcha() {
-        captchaNum1 = Math.floor(Math.random() * 10);
-        captchaNum2 = Math.floor(Math.random() * 10);
-        captchaAnswer = captchaNum1 + captchaNum2;
-        captchaLabel.textContent = `Hva er ${captchaNum1} + ${captchaNum2}?`;
+        captchaAnswer = Anmol;
+        captchaLabel.textContent = `Hva heter den eneste jenta i 2IM`;
       }
 
       // Disable form submission initially
