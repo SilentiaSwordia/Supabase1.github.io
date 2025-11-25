@@ -166,8 +166,10 @@
       let captchaNum1, captchaNum2, captchaAnswer;
 
       function generateCaptcha() {
-        captchaAnswer = Anmol;
-        captchaLabel.textContent = `Hva heter den eneste jenta i 2IM`;
+        captchaNum1 = Math.floor(Math.random() * 10);
+        captchaNum2 = Math.floor(Math.random() * 10);
+        captchaAnswer = captchaNum1 + captchaNum2;
+        captchaLabel.textContent = `Hva er ${captchaNum1} + ${captchaNum2}?`;
       }
 
       // Disable form submission initially
