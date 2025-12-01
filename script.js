@@ -24,8 +24,17 @@ const loginMsg = document.getElementById("loginMsg");
 const signupMsg = document.getElementById("signupMsg");
 
 /** 3) Åpne/lukk panel */
-openBtn.addEventListener("click", () => panel.classList.add("open"));
-closeBtn.addEventListener("click", () => panel.classList.remove("open"));
+openBtn.addEventListener("click", () => {
+  panel.classList.add("open");
+  panel.setAttribute("aria-hidden", "false"); // <-- VIKTIG: Fortell at panelet er synlig
+  // Sett fokus i e-postfeltet for bedre brukervennlighet
+  setTimeout(() => document.getElementById("loginEmail").focus(), 100);
+});
+
+closeBtn.addEventListener("click", () => {
+  panel.classList.remove("open");
+  panel.setAttribute("aria-hidden", "true"); // <-- Fortell at panelet er skjult igjen
+});
 
 /** 4) Bytt mellom "Logg inn" og "Opprett profil" */
 tabButtons.forEach((btn) => {
@@ -70,16 +79,35 @@ async function refreshAuthUI() {
 loginForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   loginMsg.textContent = "Logger inn...";
+
   const email = document.getElementById("loginEmail").value.trim();
   const pass = document.getElementById("loginPass").value;
 
-  const { error } = await supabase.auth.signInWithPassword({
+  // Legg til feilsøking i konsollen
+  console.log("Forsøker login med:", email);
+
+  const { data, error } = await supabase.auth.signInWithPassword({
     email,
     password: pass,
   });
-  loginMsg.textContent = error ? "Feil: " + error.message : "Innlogget ✅";
-  await refreshAuthUI();
-  if (!error) setTimeout(() => panel.classList.remove("open"), 400);
+
+  if (error) {
+    console.error("Supabase Error:", error); // <-- Se feilen i konsollen
+    loginMsg.textContent = "Feil: " + error.message;
+    loginMsg.style.color = "red";
+  } else {
+    console.log("Login Suksess:", data);
+    loginMsg.textContent = "Innlogget ✅";
+    loginMsg.style.color = "green";
+
+    await refreshAuthUI();
+
+    // Lukk panelet etter 1 sekund ved suksess
+    setTimeout(() => {
+      panel.classList.remove("open");
+      panel.setAttribute("aria-hidden", "true");
+    }, 1000);
+  }
 });
 
 /** 7) Opprett bruker */
